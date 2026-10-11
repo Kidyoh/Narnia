@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Hillward</title>
+  <meta name="description" content="Two friends, one sled, all the way to the summit. A 2D sledding game through green hills.">
+  <meta name="theme-color" content="#a8d058">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Hillward">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Hillward game"></canvas>
+
+  <div id="hud" class="hud hidden">
+    <div class="hud-daisies">
+      <svg viewBox="-12 -12 24 24" width="22" height="22" aria-hidden="true">
+        <g fill="#fffef6" stroke="#4a5a34" stroke-width="0.8">
+          <ellipse cx="0" cy="-6.5" rx="3" ry="5"/><ellipse cx="0" cy="-6.5" rx="3" ry="5" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-6.5" rx="3" ry="5" transform="rotate(144)"/><ellipse cx="0" cy="-6.5" rx="3" ry="5" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-6.5" rx="3" ry="5" transform="rotate(288)"/>
+        </g>
+        <circle r="3.6" fill="#f2c230" stroke="#7a5210" stroke-width="0.8"/>
+      </svg>
+      <span id="hud-daisies">0</span>
+    </div>
+    <div class="hud-progress" aria-hidden="true">
+      <div id="hud-bar" class="hud-bar"></div>
+      <div id="hud-flags"></div>
+      <div id="hud-marker" class="hud-marker"></div>
+      <div class="hud-lamp"></div>
+    </div>
+    <button id="btn-pause" class="hud-pause" aria-label="Pause"><span></span><span></span></button>
+  </div>
+
+  <div id="tip" class="tip"></div>
+  <div id="banner" class="banner"><div id="banner-title"></div><div id="banner-sub"></div></div>
+
+  <section id="screen-title" class="screen">
+    <div class="title-top">
+      <h1>Hillward</h1>
+      <p class="sub">Two friends, one sled, all the way to the summit.</p>
+    </div>
+    <div class="title-bottom">
+      <button id="btn-play" class="btn primary">Play</button>
+      <button id="btn-levels" class="btn">Levels</button>
+      <button id="btn-sound" class="btn small">Sound: On</button>
+      <p class="hint">Tap to jump &middot; Hold in the air to flip</p>
+      <p id="install-hint" class="hint small-hint"></p>
+      <button id="btn-install" class="btn small hidden">Install app</button>
+    </div>
+  </section>
+
+  <section id="screen-levels" class="screen hidden">
+    <div class="card wide">
+      <h2>Choose a hill</h2>
+      <div id="level-list" class="level-list"></div>
+      <button id="btn-back" class="btn small">Back</button>
+    </div>
+  </section>
+
+  <section id="screen-pause" class="screen hidden">
+    <div class="card">
+      <h2>Paused</h2>
+      <button id="btn-resume" class="btn primary">Resume</button>
+      <button id="btn-restart" class="btn">Restart level</button>
+      <button id="btn-pause-sound" class="btn small">Sound: On</button>
+      <button id="btn-quit" class="btn small">Levels</button>
+    </div>
+  </section>
+
+  <section id="screen-complete" class="screen hidden">
+    <div class="card">
+      <h2 id="complete-title">Level complete</h2>
+      <div id="complete-stars" class="stars"></div>
+      <div id="complete-stats" class="stats"></div>
+      <button id="btn-next" class="btn primary">Next hill</button>
+      <button id="btn-retry" class="btn">Ride again</button>
+      <button id="btn-complete-levels" class="btn small">Levels</button>
+    </div>
+  </section>
+
+  <section id="screen-ending" class="screen hidden">
+    <div class="card">
+      <h2>The Summit</h2>
+      <div id="ending-stars" class="stars"></div>
+      <p class="story">The child points out across the valley. The gentleman tips his hat. Every hill you crossed is down there, small and green and far away.</p>
+      <div id="ending-stats" class="stats"></div>
+      <button id="btn-ending-levels" class="btn primary">Back to the hills</button>
+    </div>
+  </section>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
