@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hillward</string>
+    <string name="title_activity_main">Hillward</string>
+    <string name="package_name">com.kidyoh.hillward</string>
+    <string name="custom_url_scheme">com.kidyoh.hillward</string>
+</resources>

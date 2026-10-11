@@ -21,9 +21,35 @@ Everything (hills, forests, characters, sounds, music) is drawn or synthesized i
 | 5 | Misty Heights | Mist, the hardest mix |
 | 6 | The Summit | The final climb to the peak |
 
-## Put it on your phone
+## Android app
 
-It's a static site and an installable web app (PWA): fullscreen, home-screen icon, works offline after the first visit.
+The `android/` folder is a native Android app (built with [Capacitor](https://capacitorjs.com)) that wraps the same game: fullscreen, its own launcher icon, keeps the screen awake, and the Back button pauses or steps back through the menus.
+
+**Install the APK on your phone**
+
+1. Copy `app-release.apk` to the phone (download it, or send it to yourself).
+2. Tap it. Android asks to allow installs from that app (Files, Chrome, etc.) once: allow it.
+3. Tap **Install**, then open **Hillward**.
+
+Play Protect may warn that the app is from an unknown developer; that's normal for apps not installed from the Play Store.
+
+**Build the APK yourself**
+
+Needs Node, JDK 21 and the Android SDK (platform 35) with `ANDROID_HOME` set, or a `android/local.properties` containing `sdk.dir=...`.
+
+```sh
+npm install
+npm run android:build
+# -> android/app/build/outputs/apk/release/app-release.apk
+```
+
+Or run `npm run android:sync` and open the `android/` folder in Android Studio.
+
+After changing the game, run `npm run android:build` again and bump `versionCode` in `android/app/build.gradle`. The APK is signed with `android/app/hillward-sideload.keystore`, a key kept in the repo on purpose so new builds install over old ones without losing progress. **It is not secret**: create your own private key before publishing to the Play Store.
+
+## Put it on your phone as a web app
+
+It's also a static site and an installable web app (PWA): fullscreen, home-screen icon, works offline after the first visit.
 
 1. In the GitHub repo: **Settings → Pages → Build and deployment → Deploy from a branch**, pick the branch and `/ (root)`, then save.
 2. Open the Pages URL on your phone.
@@ -59,6 +85,8 @@ When you change files, bump `VERSION` in `sw.js` so installed copies update.
 | `js/draw.js` | Terrain, scenery, rocks, daisies, lamp-post and the two riders |
 | `js/audio.js` | Synthesized sound effects, wind and music-box melody |
 | `js/main.js` | Game loop, camera, input, menus, HUD, saving |
+| `scripts/build-web.mjs` | Copies the game into `www/` for the Android app |
+| `android/` | Native Android project (Capacitor) |
 | `test/sim.mjs` | Plays every level headlessly and fails if one can't be finished cleanly |
 
 Tuning lives in `PHYS` (`js/player.js`) and `LEVELS` (`js/levels.js`). The game name is in `index.html`, `manifest.webmanifest` and the title text, if you want to rename it.

@@ -608,25 +608,54 @@ on('btn-retry', () => startLevel(game.run.level.index));
 on('btn-complete-levels', toLevels);
 on('btn-ending-levels', toLevels);
 
-// ---------- install / offline ----------
-const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-if (!standalone && ios) $('install-hint').textContent = 'Tip: tap Share, then "Add to Home Screen" to play fullscreen.';
-let deferredInstall = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredInstall = e;
-  $('btn-install').classList.remove('hidden');
-});
-on('btn-install', async () => {
-  if (!deferredInstall) return;
-  deferredInstall.prompt();
-  await deferredInstall.userChoice;
-  deferredInstall = null;
-  $('btn-install').classList.add('hidden');
-});
-if ('serviceWorker' in navigator && location.protocol !== 'file:' && !params.has('nosw')) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+// ---------- native app (Android via Capacitor) ----------
+const native = !!window.Capacitor?.isNativePlatform?.();
+const AppPlugin = native ? window.Capacitor.Plugins?.App : null;
+if (AppPlugin) {
+  // Hardware back button: step back through the menus, exit only from the title screen.
+  AppPlugin.addListener('backButton', () => {
+    switch (game.mode) {
+      case 'play':
+        pause();
+        break;
+      case 'paused':
+        resume();
+        break;
+      case 'levels':
+        toTitle();
+        break;
+      case 'complete':
+      case 'ending':
+        toLevels();
+        break;
+      default:
+        AppPlugin.exitApp();
+    }
+  });
+  AppPlugin.addListener('pause', pause);
+}
+
+// ---------- install / offline (web only) ----------
+if (!native) {
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (!standalone && ios) $('install-hint').textContent = 'Tip: tap Share, then "Add to Home Screen" to play fullscreen.';
+  let deferredInstall = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstall = e;
+    $('btn-install').classList.remove('hidden');
+  });
+  on('btn-install', async () => {
+    if (!deferredInstall) return;
+    deferredInstall.prompt();
+    await deferredInstall.userChoice;
+    deferredInstall = null;
+    $('btn-install').classList.add('hidden');
+  });
+  if ('serviceWorker' in navigator && location.protocol !== 'file:' && !params.has('nosw')) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
 }
 
 // ---------- boot ----------

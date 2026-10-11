@@ -1,6 +1,6 @@
 // Offline support: cache the whole game on first load, then serve from cache.
 // Bump VERSION whenever files change so phones pick up the update.
-const VERSION = 'hillward-v1';
+const VERSION = 'hillward-v2';
 const FILES = [
   './',
   'index.html',

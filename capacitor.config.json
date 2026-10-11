@@ -1,0 +1,10 @@
+{
+  "appId": "com.kidyoh.hillward",
+  "appName": "Hillward",
+  "webDir": "www",
+  "backgroundColor": "#fbfbe9",
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  }
+}

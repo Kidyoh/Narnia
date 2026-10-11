@@ -6,6 +6,17 @@
   "type": "module",
   "scripts": {
     "start": "npx serve -l 8080 .",
-    "test": "node test/sim.mjs"
+    "test": "node test/sim.mjs",
+    "build:web": "node scripts/build-web.mjs",
+    "android:sync": "npm run build:web && npx cap sync android",
+    "android:build": "npm run android:sync && cd android && ./gradlew assembleRelease"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.9"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/app": "^7.1.2",
+    "@capacitor/core": "^7.6.9"
   }
 }
